@@ -7,12 +7,12 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { StaticQuery, graphql } from "gatsby"
+import { StaticQuery, graphql, Link } from "gatsby"
+import { Layout, Menu, Icon } from "antd"
 
-import Header from "./header"
-import "./layout.css"
+const { Header, Content, Footer, Sider } = Layout
 
-const Layout = ({ children }) => (
+const GLayout = ({ children, page }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -24,30 +24,59 @@ const Layout = ({ children }) => (
       }
     `}
     render={data => (
-      <>
-        <Header siteTitle={data.site.siteMetadata.title} />
-        <div
-          style={{
-            margin: `0 auto`,
-            maxWidth: 960,
-            padding: `0px 1.0875rem 1.45rem`,
-            paddingTop: 0,
+      <Layout style={{minHeight: '100vh'}}>
+        <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
+          onBreakpoint={broken => {
+            console.log(broken);
+          }}
+          onCollapse={(collapsed, type) => {
+            console.log(collapsed, type);
           }}
         >
-          <main>{children}</main>
-          <footer>
-            © {new Date().getFullYear()}, Built with
-            {` `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
-          </footer>
-        </div>
-      </>
+          <div className="logo" />
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={[page]}>
+            <Menu.Item key="1">
+              <Link to="/">
+                <Icon type="user" />
+                <span className="nav-text">Home</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <a href="https://popipop.com" target='_blank' rel="noopener noreferrer">
+                <Icon type="video-camera" />
+                <span className="nav-text">popipop.com</span>
+              </a>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <Link to='/page-2'>
+                <Icon type="upload" />
+                <span className="nav-text">page 2</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="4">
+              <Link to='/about'>
+                <Icon type="user" />
+                <span className="nav-text">About</span>
+              </Link>
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout>
+          <Header style={{ padding: 0, color: 'white', fontSize: '3em' }}>{data.site.siteMetadata.title}</Header>
+          <Content style={{ margin: '24px 16px 0' }}>
+            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>{children}</div>
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        </Layout>
+      </Layout>
     )}
   />
 )
 
-Layout.propTypes = {
+GLayout.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export default Layout
+export default GLayout
