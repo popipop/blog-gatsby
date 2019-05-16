@@ -1,5 +1,6 @@
 backend:
-  name: test-repo
+  name: github
+  repo: popipop/blog-gatsby
 
 media_folder: static/assets
 public_folder: assets
