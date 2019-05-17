@@ -1,5 +1,8 @@
 backend:
-  name: github
+  name: git-gateway
+  accept_roles:
+    - admin
+    - editor
   repo: popipop/blog-gatsby
 
 media_folder: static/assets
